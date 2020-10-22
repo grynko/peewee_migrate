@@ -138,7 +138,8 @@ class BaseRouter(object):
             if fake:
                 with mock.patch('peewee.Model.select'):
                     with mock.patch('peewee.Query._execute'):
-                        migrate(migrator, self.database, fake=fake)
+                        with mock.patch('peewee._WriteQuery._execute'):
+                            migrate(migrator, self.database, fake=fake)
 
                 if force:
                     self.model.create(name=name)
